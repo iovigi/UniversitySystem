@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\UniversitySystem.Common\UniversitySystem.Common.csproj" />
     <ProjectReference Include="..\..\Data\UniversitySystem.Data.Models\UniversitySystem.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\UniversitySystem.Data.Repositories\UniversitySystem.Data.Repositories.csproj" />
     <ProjectReference Include="..\UniversitySystem.Business.Services.Models\UniversitySystem.Business.Services.Models.csproj" />

@@ -6,7 +6,7 @@
 
     public interface IRepository<T> : IDisposable where T : class
     {
-        IQueryable<T> All();
+        IQueryable<T> GetAll();
 
         void Add(T entity);
 
@@ -16,13 +16,13 @@
 
         Task AddRangeAsync(params T[] entities);
 
-        void Delete(T entity);
+        bool Delete(T entity);
 
-        Task DeleteAsync(T entity);
+        Task<bool> DeleteAsync(T entity);
 
-        void Delete(object id);
+        bool Delete(object id);
 
-        Task DeleteAsync(object id);
+        Task<bool> DeleteAsync(object id);
 
         void DeleteRange(params T[] entities);
 
@@ -39,5 +39,9 @@
         void UpdateRange(params T[] entities);
 
         Task UpdateRangeAsync(params T[] entities);
+
+        int SaveChanges();
+
+        Task<int> SaveChangesAsync();
     }
 }

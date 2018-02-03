@@ -41,39 +41,41 @@
             await this.universitySystemDbContext.SaveChangesAsync();
         }
 
-        public IQueryable<T> All()
+        public IQueryable<T> GetAll()
         {
             return this.universitySystemDbContext.Set<T>().AsQueryable();
         }
 
-        public void Delete(T entity)
+        public bool Delete(T entity)
         {
             this.universitySystemDbContext.Remove(entity);
 
-            this.universitySystemDbContext.SaveChanges();
+            int affectedRow = this.universitySystemDbContext.SaveChanges();
+
+            return affectedRow > 0;
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task<bool> DeleteAsync(T entity)
         {
             this.universitySystemDbContext.Set<T>().Remove(entity);
 
-            await this.universitySystemDbContext.SaveChangesAsync();
+            int affectedRow = await this.universitySystemDbContext.SaveChangesAsync();
+
+            return affectedRow > 0;
         }
 
-        public void Delete(object id)
+        public bool Delete(object id)
         {
             var entity = this.GetById(id);
 
-            this.Delete(entity);
+            return this.Delete(entity);
         }
 
-        public async Task DeleteAsync(object id)
+        public async Task<bool> DeleteAsync(object id)
         {
             var entity = await this.GetByIdAsync(id);
 
-            this.universitySystemDbContext.Set<T>().Remove(entity);
-
-            await this.universitySystemDbContext.SaveChangesAsync();
+            return await DeleteAsync(entity);
         }
 
         public void DeleteRange(params T[] entities)
@@ -124,6 +126,16 @@
             this.universitySystemDbContext.Set<T>().UpdateRange(entities);
 
             await this.universitySystemDbContext.SaveChangesAsync();
+        }
+
+        public int SaveChanges()
+        {
+            return this.universitySystemDbContext.SaveChanges();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await this.universitySystemDbContext.SaveChangesAsync();
         }
 
         public void Dispose()

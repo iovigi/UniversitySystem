@@ -7,7 +7,7 @@
 
     public interface ICourseService
     {
-        Task<IQueryable<CourseServiceModel>> GetAllAsync();
+        IQueryable<CourseServiceModel> GetAll();
 
         Task AddAsync(string name, int score);
 
@@ -17,12 +17,12 @@
 
         Task<bool> DeleteAsync(int courseId);
 
-        Task<CourseServiceModel> UpdateCourseAsync(int courseId, string name, int score);
+        Task<bool> UpdateCourseAsync(int courseId, string name, int score);
 
         Task<bool> RegisterStudentAsync(int courseId, string studentId);
 
         Task<bool> UnRegisterStudentAsync(int courseId, string studentId);
 
-        Task<CourseListsByStudentServiceModel> GetCourseListsByAsync(string studentId);
+        CourseListsByStudentServiceModel GetCourseListsByStudent(string studentId);
     }
 }
