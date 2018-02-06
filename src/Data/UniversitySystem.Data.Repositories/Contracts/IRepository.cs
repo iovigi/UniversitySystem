@@ -1,10 +1,12 @@
 ﻿namespace UniversitySystem.Data.Repositories.Contracts
 {
     using System;
-    using System.Threading.Tasks;
     using System.Linq;
+    using System.Threading.Tasks;
 
-    public interface IRepository<T> : IDisposable where T : class
+    using Common;
+
+    public interface IRepository<T> : IDisposable, IDependency where T : class
     {
         IQueryable<T> GetAll();
 

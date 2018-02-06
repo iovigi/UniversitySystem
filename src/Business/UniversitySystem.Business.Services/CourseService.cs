@@ -1,27 +1,46 @@
 ﻿namespace UniversitySystem.Business.Services
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
 
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
+    using Common;
     using Contracts;
     using Models.Courses;
     using Data.Repositories.Contracts;
     using Data.Models;
-    using UniversitySystem.Common;
+
 
     public class CourseService : ICourseService
     {
         private readonly IRepository<Course> courseRepository;
         private readonly IRepository<Student> studentRepository;
+        private readonly IMapper mapper;
 
-        public CourseService(IRepository<Course> courseRepository, IRepository<Student> studentRepository)
+        public CourseService(IRepository<Course> courseRepository, IRepository<Student> studentRepository, IMapper mapper)
         {
-            this.courseRepository = courseRepository;
-            this.studentRepository = studentRepository;
+            this.courseRepository = courseRepository ?? throw new ArgumentNullException(nameof(courseRepository));
+            this.studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); ;
         }
 
         public async Task AddAsync(string name, int score)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Invalid Name");
+            }
+
+            if (score < 0)
+            {
+                throw new ArgumentException("Invalid Score");
+            }
+
             var course = new Course()
             {
                 Name = name,
@@ -43,10 +62,9 @@
             return await this.courseRepository.DeleteAsync(courseId);
         }
 
-        public IQueryable<CourseServiceModel> GetAll()
+        public async Task<IEnumerable<CourseServiceModel>> GetAllAsync()
         {
-            return this.courseRepository.GetAll()
-                .Select(c => new CourseServiceModel(c.Id, c.Name, c.Score, c.Students.Count));
+            return await this.courseRepository.GetAll().ProjectTo<CourseServiceModel>().ToListAsync();
         }
 
         public async Task<CourseServiceModel> GetAsync(int courseId)
@@ -58,7 +76,7 @@
                 return null;
             }
 
-            return new CourseServiceModel(course.Id, course.Name, course.Score, course.Students.Count);
+            return this.mapper.Map<CourseServiceModel>(course);
         }
 
         public CourseListsByStudentServiceModel GetCourseListsByStudent(string studentId)
@@ -108,7 +126,7 @@
                 return false;
             }
 
-            if(student.Courses.Sum(x=> x.Course.Score) >= GlobalStudentConstants.MaxScore)
+            if (student.Courses.Sum(x => x.Course.Score) >= GlobalStudentConstants.MaxScore)
             {
                 return false;
             }
@@ -160,7 +178,7 @@
         {
             var course = await this.courseRepository.GetByIdAsync(courseId);
 
-            if(course.Students.Count > 0)
+            if (course.Students.Count > 0)
             {
                 return false;
             }

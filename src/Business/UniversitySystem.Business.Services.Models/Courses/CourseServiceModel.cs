@@ -1,6 +1,11 @@
 ﻿namespace UniversitySystem.Business.Services.Models.Courses
 {
-    public class CourseServiceModel
+    using AutoMapper;
+
+    using Common.Mapping;
+    using Data.Models;
+
+    public class CourseServiceModel : IMapFrom<Course>, IHaveCustomMapping
     {
         public CourseServiceModel()
         {
@@ -18,5 +23,11 @@
         public string Name { get; set; }
         public int Score { get; set; }
         public int CountOfStudent { get; set; }
+
+        public void ConfigureMapping(Profile mapper)
+        {
+            mapper.CreateMap<Course, CourseServiceModel>()
+                .ForMember(d => d.CountOfStudent, opt => opt.MapFrom(s => s.Students.Count));
+        }
     }
 }

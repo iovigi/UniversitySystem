@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Business\UniversitySystem.Business.Services.Models\UniversitySystem.Business.Services.Models.csproj" />
     <ProjectReference Include="..\..\Common\UniversitySystem.Common\UniversitySystem.Common.csproj" />
-    <ProjectReference Include="..\UniversitySystem.Data\UniversitySystem.Data.csproj" />
   </ItemGroup>
 
 </Project>

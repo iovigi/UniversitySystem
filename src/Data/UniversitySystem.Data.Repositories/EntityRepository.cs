@@ -12,7 +12,7 @@
 
         public EntityRepository(UniversitySystemDbContext universitySystemDbContext)
         {
-            this.universitySystemDbContext = universitySystemDbContext;
+            this.universitySystemDbContext = universitySystemDbContext ?? throw new ArgumentNullException(nameof(universitySystemDbContext));
         }
 
         public void Add(T entity)
@@ -43,7 +43,7 @@
 
         public IQueryable<T> GetAll()
         {
-            return this.universitySystemDbContext.Set<T>().AsQueryable();
+            return this.universitySystemDbContext.Set<T>();
         }
 
         public bool Delete(T entity)

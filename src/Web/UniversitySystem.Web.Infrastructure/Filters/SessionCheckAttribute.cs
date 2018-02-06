@@ -1,4 +1,4 @@
-﻿namespace UniversitySystem.Web.Filters
+﻿namespace UniversitySystem.Web.Infrastructure.Filters
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;

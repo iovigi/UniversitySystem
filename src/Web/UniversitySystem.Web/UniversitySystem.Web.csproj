@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +20,16 @@
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
     <Content Remove="ClientApp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\UniversitySystem.Business.Services\UniversitySystem.Business.Services.csproj" />
+    <ProjectReference Include="..\..\Common\UniversitySystem.Common\UniversitySystem.Common.csproj" />
+    <ProjectReference Include="..\..\Data\UniversitySystem.Data.Models\UniversitySystem.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\UniversitySystem.Data.Repositories\UniversitySystem.Data.Repositories.csproj" />
+    <ProjectReference Include="..\..\Data\UniversitySystem.Data\UniversitySystem.Data.csproj" />
+    <ProjectReference Include="..\UniversitySystem.Web.Infrastructure\UniversitySystem.Web.Infrastructure.csproj" />
+    <ProjectReference Include="..\UniversitySystem.Web.Models\UniversitySystem.Web.Models.csproj" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

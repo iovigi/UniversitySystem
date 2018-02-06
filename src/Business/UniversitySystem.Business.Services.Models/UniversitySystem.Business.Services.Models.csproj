@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\UniversitySystem.Common\UniversitySystem.Common.csproj" />
+    <ProjectReference Include="..\..\Data\UniversitySystem.Data.Models\UniversitySystem.Data.Models.csproj" />
+  </ItemGroup>
+
 </Project>
