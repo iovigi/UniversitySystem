@@ -7,6 +7,11 @@
 
     public static class TypeHelpers
     {
+        /// <summary>
+        /// Get all types in assemblies related to project, which contain assembliesContainName
+        /// </summary>
+        /// <param name="assembliesContainName">assembliesContainName</param>
+        /// <returns></returns>
         public static Type[] GetAllTypeForAllUsedAssemblyContainName(string assembliesContainName)
         {
             //INedelchev: This is only not buggy way so far, which I found to get all assemblies for solution.

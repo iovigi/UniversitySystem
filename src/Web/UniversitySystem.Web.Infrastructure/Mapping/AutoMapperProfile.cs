@@ -10,6 +10,10 @@
 
     public class AutoMapperProfile : Profile
     {
+        /// <summary>
+        /// Automapper profile wich register all types, which implement IMapFrom in assemblies related to project, which contain assembliesContainName
+        /// </summary>
+        /// <param name="assembliesContainName">assembliesContainName</param>
         public AutoMapperProfile(string assembliesContainName)
         {
             var allTypes = TypeHelpers.GetAllTypeForAllUsedAssemblyContainName(assembliesContainName);

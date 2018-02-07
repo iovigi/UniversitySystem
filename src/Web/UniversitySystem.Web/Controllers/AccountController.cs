@@ -20,6 +20,11 @@
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        /// <summary>
+        /// Asyncronosly action method for login of the student
+        /// </summary>
+        /// <param name="request">Model with email and password for student, who want to login</param>
+        /// <returns>Return task with result of login.</returns>
         public async Task<IActionResult> Login(LoginRequestViewModel request)
         {
             if (this.ModelState.IsValid || request == null)
@@ -33,6 +38,11 @@
             return this.Ok(resultModel);
         }
 
+        /// <summary>
+        /// Asyncronosly action method for register of the student
+        /// </summary>
+        /// <param name="request">Model with email and password for student, who want to register</param>
+        /// <returns>Return task with result of register.</returns>
         public async Task<IActionResult> Register(RegisterRequestViewModel request)
         {
             if (this.ModelState.IsValid || request == null)

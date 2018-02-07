@@ -5,17 +5,19 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyModel;
 
+    using Helpers;
+
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Register all types, which located in assemblies which contain assembliesContainName and implement interface TDependency
+        /// </summary>
+        /// <typeparam name="TDependency">Interface, which should be implemented by type</typeparam>
+        /// <param name="services">Service collection</param>
+        /// <param name="assembliesContainName">Assemblies name which should be contained</param>
         public static void RegisterAllDependenciesWhichImplement<TDependency>(this IServiceCollection services, string assembliesContainName)
         {
-            //INedelchev: This is only not buggy way so far, which I found to get all assemblies for solution.
-            var dependencies = DependencyContext.Default.RuntimeLibraries;
-
-            var types = dependencies
-                .Where(d => d.Name.Contains(assembliesContainName))
-                .Select(d => Assembly.Load(d.Name))
-                .SelectMany(a => a.GetTypes())
+            var types = TypeHelpers.GetAllTypeForAllUsedAssemblyContainName(assembliesContainName)
                 .Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(TDependency)));
 
             foreach (var type in types)

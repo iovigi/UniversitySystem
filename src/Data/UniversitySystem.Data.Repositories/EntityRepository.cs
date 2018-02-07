@@ -25,6 +25,7 @@
         public async Task AddAsync(T entity)
         {
             await this.universitySystemDbContext.AddAsync(entity);
+            await this.universitySystemDbContext.SaveChangesAsync();
         }
 
         public void AddRange(params T[] entities)

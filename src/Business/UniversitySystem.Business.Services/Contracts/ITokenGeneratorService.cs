@@ -7,7 +7,7 @@
         /// <summary>
         /// Generate unique token
         /// </summary>
-        /// <returns>generated token</returns>
+        /// <returns>Return generated token</returns>
         string GenerateToken();
     }
 }

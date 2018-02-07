@@ -3,6 +3,7 @@ namespace UniversitySystem.Business.Services
 {
     using System;
     using System.Linq;
+    using System.Security.Claims;
     using Microsoft.AspNetCore.Identity;
 
     using Contracts;
@@ -86,6 +87,11 @@ namespace UniversitySystem.Business.Services
             {
                 ErrorMessages = result.Errors.Select(x => x.Description).ToArray()
             };
+        }
+
+        public string GetUserId(ClaimsPrincipal user)
+        {
+            return this.userManager.GetUserId(user);
         }
     }
 }
