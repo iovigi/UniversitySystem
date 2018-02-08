@@ -1,7 +1,7 @@
 ﻿namespace UniversitySystem.Business.Services.Contracts
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Linq;
 
     using Common;
     using Models.Courses;
@@ -12,7 +12,7 @@
         /// Asynchronously get all courses which is store in data storage
         /// </summary>
         /// <returns>Return task with all available courses</returns>
-        Task<IEnumerable<CourseServiceModel>> GetAllAsync();
+        IQueryable<CourseServiceModel> GetAllAsync();
 
         /// <summary>
         /// Asynchronously add Course to data store. If name is null or white space, throw ArgumentException. If score is less than zero throw ArgumentException.

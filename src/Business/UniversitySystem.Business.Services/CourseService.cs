@@ -11,9 +11,9 @@
 
     using Common;
     using Contracts;
-    using Models.Courses;
     using Data.Repositories.Contracts;
     using Data.Models;
+    using Models.Courses;
 
 
     public class CourseService : ICourseService
@@ -62,9 +62,9 @@
             return await this.courseRepository.DeleteAsync(courseId);
         }
 
-        public async Task<IEnumerable<CourseServiceModel>> GetAllAsync()
+        public IQueryable<CourseServiceModel> GetAllAsync()
         {
-            return await this.courseRepository.GetAll().ProjectTo<CourseServiceModel>().ToListAsync();
+            return this.courseRepository.GetAll().ProjectTo<CourseServiceModel>();
         }
 
         public async Task<CourseServiceModel> GetAsync(int courseId)

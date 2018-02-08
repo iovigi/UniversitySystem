@@ -27,7 +27,7 @@
         /// <returns>Return task with result of login.</returns>
         public async Task<IActionResult> Login(LoginRequestViewModel request)
         {
-            if (this.ModelState.IsValid || request == null)
+            if ((!this.ModelState.IsValid) || request == null)
             {
                 return this.BadRequest();
             }
@@ -45,7 +45,7 @@
         /// <returns>Return task with result of register.</returns>
         public async Task<IActionResult> Register(RegisterRequestViewModel request)
         {
-            if (this.ModelState.IsValid || request == null)
+            if ((!this.ModelState.IsValid) || request == null)
             {
                 return this.BadRequest();
             }

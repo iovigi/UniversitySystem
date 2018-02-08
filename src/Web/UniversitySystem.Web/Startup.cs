@@ -57,7 +57,7 @@ namespace UniversitySystem.Web
             services.RegisterAllDependenciesWhichImplement<IDependency>(AssemblyUniversitySystem);
            
             Mapper.Initialize(config => config.AddProfile(new AutoMapperProfile(AssemblyUniversitySystem)));
-            services.AddTransient<IMapper, Mapper>();
+            services.AddTransient<IMapper>(x => Mapper.Instance);
 
             services.AddMvc();
         }
