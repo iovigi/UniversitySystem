@@ -6,7 +6,7 @@
     using Business.Services.Contracts;
     using Business.Services.Models.Students;
 
-    public class MockUserService : IUserService
+    internal class MockUserService : IUserService
     {
         public string GetUserId(ClaimsPrincipal user)
         {

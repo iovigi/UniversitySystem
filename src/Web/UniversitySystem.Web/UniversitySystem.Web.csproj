@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Business\UniversitySystem.Business.Services\UniversitySystem.Business.Services.csproj" />
     <ProjectReference Include="..\..\Common\UniversitySystem.Common\UniversitySystem.Common.csproj" />
+    <ProjectReference Include="..\..\Data\UniversitySystem.Data.Initializer\UniversitySystem.Data.Initializer.csproj" />
     <ProjectReference Include="..\..\Data\UniversitySystem.Data.Models\UniversitySystem.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\UniversitySystem.Data.Repositories\UniversitySystem.Data.Repositories.csproj" />
     <ProjectReference Include="..\..\Data\UniversitySystem.Data\UniversitySystem.Data.csproj" />

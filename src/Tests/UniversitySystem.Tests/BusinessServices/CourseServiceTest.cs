@@ -1,5 +1,6 @@
 ﻿namespace UniversitySystem.Tests.BusinessServices
 {
+    using System;
     using System.Linq;
 
     using AutoMapper;
@@ -18,6 +19,12 @@
         {
             MapperInit.Init();
             this.courseService = new CourseService(new MockCourseRepository(), new MockStudentRepository(), Mapper.Instance);
+        }
+
+        [Fact]
+        public void InitShouldThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new CourseService(null, null, null));
         }
 
         [Fact]

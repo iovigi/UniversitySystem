@@ -1,9 +1,9 @@
 ﻿namespace UniversitySystem.Tests
 {
     using AutoMapper;
-    using Web.Infrastructure.Mapping;
+    using UniversitySystem.Web.Infrastructure.Mapping;
 
-    public class MapperInit
+    internal class MapperInit
     {
         private const string AssemblyUniversitySystem = "UniversitySystem";
 

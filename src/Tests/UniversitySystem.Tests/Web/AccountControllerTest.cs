@@ -1,12 +1,13 @@
-﻿namespace UniversitySystem.Tests.BusinessServices
+﻿namespace UniversitySystem.Tests.Web
 {
+    using System;
     using Microsoft.AspNetCore.Mvc;
 
     using AutoMapper;
     using Xunit;
 
     using Tests.Mocks;
-    using Web.Controllers;
+    using UniversitySystem.Web.Controllers;
 
     public class AccountControllerTest
     {
@@ -19,9 +20,15 @@
         }
 
         [Fact]
+        public void InitShouldThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new AccountController(null, null));
+        }
+
+        [Fact]
         public async void UserShouldLoginSuccessful()
         {
-            var loginViewModel = new Web.Models.Account.LoginRequestViewModel()
+            var loginViewModel = new UniversitySystem.Web.Models.Account.LoginRequestViewModel()
             {
                 Email = "test@test.bg",
                 Password = "dsadas"
@@ -40,9 +47,10 @@
             Assert.IsType<BadRequestResult>(result);
         }
 
+        [Fact]
         public async void UserShouldRegisterSuccessful()
         {
-            var registerViewModel = new Web.Models.Account.RegisterRequestViewModel()
+            var registerViewModel = new UniversitySystem.Web.Models.Account.RegisterRequestViewModel()
             {
                 Email = "test@test.bg",
                 Password = "dsadas"

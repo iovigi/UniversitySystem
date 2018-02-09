@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Web\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Business\UniversitySystem.Business.Services\UniversitySystem.Business.Services.csproj" />
     <ProjectReference Include="..\..\Data\UniversitySystem.Data.Repositories\UniversitySystem.Data.Repositories.csproj" />
     <ProjectReference Include="..\..\Web\UniversitySystem.Web.Infrastructure\UniversitySystem.Web.Infrastructure.csproj" />

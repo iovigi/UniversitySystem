@@ -5,9 +5,9 @@
 
     using UniversitySystem.Data.Models;
 
-    public class UniversitySystemDbContext : IdentityDbContext
+    public class UniversitySystemDbContext : IdentityDbContext<Student>
     {
-        public UniversitySystemDbContext(DbContextOptions options)
+        public UniversitySystemDbContext(DbContextOptions<UniversitySystemDbContext> options)
         : base(options)
         {
         }
