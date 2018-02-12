@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Common;
+
     public class Course
     {
         public Course()
@@ -15,11 +17,11 @@
         public int Id { get; set; }
 
         [Required]
-        [MinLength(3)]
+        [MinLength(GlobalCourseConstants.MinNameLength)]
         public string Name { get; set; }
 
         [Required]
-        [Range(1, 100)]
+        [Range(GlobalCourseConstants.MinCoursePoint, GlobalCourseConstants.MaxCoursePoint)]
         public int Score { get; set; }
 
         public ICollection<StudentCourse> Students { get; set; }

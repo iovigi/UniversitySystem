@@ -6,8 +6,10 @@
 
     public class LoginRequestViewModel
     {
+
+
         [Required]
-        [MinLength(5)]
+        [MinLength(GlobalAccountConstants.MinEmailLength)]
         [EmailAddress]
         public string Email { get; set; }
 

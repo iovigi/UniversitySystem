@@ -12,6 +12,7 @@
     using Common;
     using Infrastructure.Filters;
     using Models.Course;
+    using Models.ManageCourse;
 
     public class ManageCourseController : Controller
     {

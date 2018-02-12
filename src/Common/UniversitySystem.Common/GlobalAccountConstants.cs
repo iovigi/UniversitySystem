@@ -8,5 +8,7 @@ namespace UniversitySystem.Common
     {
         public const string ControllerName = "Account";
         public const string LoginActionName = "Login";
+
+        public const int MinEmailLength = 5;
     }
 }

@@ -2,11 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
-    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
 
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
 
     using Business.Services.Contracts;
     using Common;

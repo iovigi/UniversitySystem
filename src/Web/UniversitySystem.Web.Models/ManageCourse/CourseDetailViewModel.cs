@@ -1,4 +1,4 @@
-﻿namespace UniversitySystem.Web.Models.Course
+﻿namespace UniversitySystem.Web.Models.ManageCourse
 {
     using Business.Services.Models.Courses;
     using Common.Mapping;
