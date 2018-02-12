@@ -2,17 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Reflection;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.SpaServices.Webpack;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.IdentityModel.Tokens;
+    using Microsoft.AspNetCore.Mvc;
 
     using AutoMapper;
 
@@ -24,6 +21,7 @@
     using Data.Initializer;
     using Infrastructure.Extensions;
     using Infrastructure.Mapping;
+   
 
     public class Startup
     {
@@ -76,7 +74,9 @@
             services.AddTransient<IMapper>(x => Mapper.Instance);
 
             services.AddSession();
-            services.AddMvc();
+            services.AddMvc(opt=> {
+                opt.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

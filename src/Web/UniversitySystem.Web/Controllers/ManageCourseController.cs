@@ -33,6 +33,7 @@
         /// <param name="request">Model with name and score of the course</param>
         /// <returns>Return add result</returns>
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         [CheckIfUserIsNotLoginApi(GlobalAccountConstants.ControllerName, GlobalAccountConstants.LoginActionName)]
         public async Task<IActionResult> Add(AddCourseViewModel request)
         {
@@ -95,6 +96,7 @@
         /// <param name="request">Course id</param>
         /// <returns>Return task with parameter action result, parameter is OkResult. In OkResult has result for success of the delete opeteration</returns>
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         [CheckIfUserIsNotLoginApi(GlobalAccountConstants.ControllerName, GlobalAccountConstants.LoginActionName)]
         public async Task<IActionResult> Delete(int courseId)
         {

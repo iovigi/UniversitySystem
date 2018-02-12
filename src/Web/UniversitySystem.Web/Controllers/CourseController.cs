@@ -45,6 +45,7 @@
         /// <param name="courseId">Course id</param>
         /// <returns>Return task with parameter action result, parameter is OkResult. In OkResult has result for success of register course for student</returns>
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         [CheckIfUserIsNotLoginApi(GlobalAccountConstants.ControllerName, GlobalAccountConstants.LoginActionName)]
         public async Task<IActionResult> RegisterCourse(int courseId)
         {
@@ -61,6 +62,7 @@
         /// <param name="courseId">Course id</param>
         /// <returns>Return task with parameter action result, parameter is OkResult. In OkResult has result for success of unregister course for student</returns>
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         [CheckIfUserIsNotLoginApi(GlobalAccountConstants.ControllerName, GlobalAccountConstants.LoginActionName)]
         public async Task<IActionResult> UnRegisterCourse(int courseId)
         {
