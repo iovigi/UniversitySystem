@@ -56,24 +56,32 @@
             }
         }
 
-        public void Add(Student entity)
+        public int Add(Student entity)
         {
             this.students.Add(entity);
+
+            return 1;
         }
 
-        public async Task AddAsync(Student entity)
+        public async Task<int> AddAsync(Student entity)
         {
             this.students.Add(entity);
+
+            return 1;
         }
 
-        public void AddRange(params Student[] entities)
+        public int AddRange(params Student[] entities)
         {
             this.students.AddRange(entities);
+
+            return entities.Count();
         }
 
-        public async Task AddRangeAsync(params Student[] entities)
+        public async Task<int> AddRangeAsync(params Student[] entities)
         {
             this.students.AddRange(entities);
+
+            return entities.Count();
         }
 
         public bool Delete(Student entity)

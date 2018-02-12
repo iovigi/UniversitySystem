@@ -20,16 +20,18 @@
     {
         private readonly IRepository<Course> courseRepository;
         private readonly IRepository<Student> studentRepository;
+        private readonly IRepository<StudentCourse> studentCourseRepository;
         private readonly IMapper mapper;
 
-        public CourseService(IRepository<Course> courseRepository, IRepository<Student> studentRepository, IMapper mapper)
+        public CourseService(IRepository<Course> courseRepository, IRepository<Student> studentRepository, IRepository<StudentCourse> studentCourseRepository, IMapper mapper)
         {
             this.courseRepository = courseRepository ?? throw new ArgumentNullException(nameof(courseRepository));
             this.studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository));
+            this.studentCourseRepository = studentCourseRepository ?? throw new ArgumentNullException(nameof(studentCourseRepository));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); ;
         }
 
-        public async Task AddAsync(string name, int score)
+        public async Task<CourseServiceModel> AddAsync(string name, int score)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -47,7 +49,14 @@
                 Score = score
             };
 
-            await this.courseRepository.AddAsync(course);
+            var resultCount = await this.courseRepository.AddAsync(course);
+
+            if(resultCount == 0)
+            {
+                return null;
+            }
+
+            return this.mapper.Map<CourseServiceModel>(course);
         }
 
         public async Task<bool> DeleteAsync(int courseId)
@@ -59,24 +68,26 @@
                 return false;
             }
 
-            return await this.courseRepository.DeleteAsync(courseId);
+            var course = await this.courseRepository.GetAll().FirstOrDefaultAsync(x => x.Id == courseId);
+
+            return await this.courseRepository.DeleteAsync(course);
         }
 
-        public IQueryable<CourseServiceModel> GetAllAsync()
+        public IQueryable<CourseServiceModel> GetAll()
         {
             return this.courseRepository.GetAll().ProjectTo<CourseServiceModel>();
         }
 
         public async Task<CourseServiceModel> GetAsync(int courseId)
         {
-            var course = await this.courseRepository.GetByIdAsync(courseId);
+            var course = await this.courseRepository.GetAll().Select(x => new { x.Id, x.Name, x.Score, x.Students.Count }).FirstOrDefaultAsync(x => x.Id == courseId);
 
             if (course == null)
             {
                 return null;
             }
 
-            return this.mapper.Map<CourseServiceModel>(course);
+            return new CourseServiceModel(course.Id, course.Name, course.Score, course.Count);
         }
 
         public CourseListsByStudentServiceModel GetCourseListsByStudent(string studentId)
@@ -101,6 +112,8 @@
                 }
             }
 
+            courseListsByStudent.CanRegisterMoreCourse = courseListsByStudent.RegisteredCourses.Sum(c => c.Score) < GlobalStudentConstants.MaxScore;
+
             return courseListsByStudent;
         }
 
@@ -116,67 +129,78 @@
             return true;
         }
 
-        public async Task<bool> RegisterStudentAsync(int courseId, string studentId)
+        public async Task<RegisterToCourseServiceModel> RegisterStudentAsync(int courseId, string studentId)
         {
-            var course = await this.courseRepository.GetByIdAsync(courseId);
-            var student = await this.studentRepository.GetByIdAsync(studentId);
+            var course = await this.courseRepository.GetAll().Select(x => new { x.Id, x.Students, x.Score }).FirstOrDefaultAsync(x => x.Id == courseId);
+            var student = await this.studentRepository.GetAll().Select(x => new { x.Id }).FirstOrDefaultAsync(x => x.Id == studentId);
+            var studentCoure = await this.studentCourseRepository.GetAll().Where(x => x.StudentId == studentId).Select(x => x.Course).ToListAsync();
 
             if (course == null || student == null)
             {
-                return false;
+                return new RegisterToCourseServiceModel();
             }
 
-            if (student.Courses.Sum(x => x.Course.Score) >= GlobalStudentConstants.MaxScore)
+            var score = studentCoure.Sum(x => x.Score);
+
+            if (score >= GlobalStudentConstants.MaxScore)
             {
-                return false;
+                return new RegisterToCourseServiceModel();
             }
 
             if (course.Students.Any(x => x.StudentId == studentId))
             {
-                return false;
+                return new RegisterToCourseServiceModel();
             }
 
             course.Students.Add(
                 new StudentCourse()
                 {
                     StudentId = studentId,
-                    Student = student,
-                    CourseId = courseId,
-                    Course = course
+                    CourseId = courseId
                 });
 
             await this.courseRepository.SaveChangesAsync();
 
-            return true;
+            return new RegisterToCourseServiceModel()
+            {
+                IsSuccessfull = true,
+                CanRegisterMore = (score + course.Score) < GlobalStudentConstants.MaxScore
+            };
         }
 
-        public async Task<bool> UnRegisterStudentAsync(int courseId, string studentId)
+        public async Task<UnRegisterToCourseServiceModelcs> UnRegisterStudentAsync(int courseId, string studentId)
         {
-            var course = await this.courseRepository.GetByIdAsync(courseId);
-            var student = await this.studentRepository.GetByIdAsync(studentId);
+            var course = await this.courseRepository.GetAll().Select(x => new { x.Id, x.Students, x.Score }).FirstOrDefaultAsync(x => x.Id == courseId);
+            var student = await this.studentRepository.GetAll().FirstOrDefaultAsync(x => x.Id == studentId);
 
             if (course == null || student == null)
             {
-                return false;
+                return new UnRegisterToCourseServiceModelcs();
             }
 
             var studentCourse = course.Students.FirstOrDefault(x => x.StudentId == studentId);
 
             if (studentCourse == null)
             {
-                return false;
+                return new UnRegisterToCourseServiceModelcs();
             }
 
             course.Students.Remove(studentCourse);
 
             await this.courseRepository.SaveChangesAsync();
 
-            return true;
+            var score = await this.studentCourseRepository.GetAll().Where(x => x.StudentId == studentId).Select(x => x.Course.Score).SumAsync();
+
+            return new UnRegisterToCourseServiceModelcs()
+            {
+                IsSuccessfull = true,
+                CanRegisterMore = (score - course.Score) < GlobalStudentConstants.MaxScore
+            };
         }
 
         public async Task<bool> UpdateCourseAsync(int courseId, string name, int score)
         {
-            var course = await this.courseRepository.GetByIdAsync(courseId);
+            var course = await this.courseRepository.GetAll().FirstOrDefaultAsync(x => x.Id == courseId);
 
             if (course.Students.Count > 0)
             {

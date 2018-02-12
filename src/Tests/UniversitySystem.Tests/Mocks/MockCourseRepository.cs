@@ -84,24 +84,32 @@
             }
         }
 
-        public void Add(Course entity)
+        public int Add(Course entity)
         {
             this.courses.Add(entity);
+
+            return 1;
         }
 
-        public async Task AddAsync(Course entity)
+        public async Task<int> AddAsync(Course entity)
         {
             this.courses.Add(entity);
+
+            return 1;
         }
 
-        public void AddRange(params Course[] entities)
+        public int AddRange(params Course[] entities)
         {
             this.courses.AddRange(entities);
+
+            return 1;
         }
 
-        public async Task AddRangeAsync(params Course[] entities)
+        public async Task<int> AddRangeAsync(params Course[] entities)
         {
             this.courses.AddRange(entities);
+
+            return 1;
         }
 
         public bool Delete(Course entity)

@@ -15,14 +15,11 @@ namespace UniversitySystem.Business.Services
     {
         private readonly UserManager<Student> userManager;
         private readonly SignInManager<Student> signInManager;
-        private readonly ITokenGeneratorService tokenGeneratorService;
 
-
-        public UserService(UserManager<Student> userManager, SignInManager<Student> signInManager, ITokenGeneratorService tokenGeneratorService)
+        public UserService(UserManager<Student> userManager, SignInManager<Student> signInManager)
         {
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager)); ;
             this.signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager)); ;
-            this.tokenGeneratorService = tokenGeneratorService ?? throw new ArgumentNullException(nameof(tokenGeneratorService));
         }
 
         public async Task<LoginResultServiceModel> LoginAsync(string email, string password)
@@ -46,7 +43,6 @@ namespace UniversitySystem.Business.Services
                 {
                     Id = student.Id,
                     Email = email,
-                    Token = this.tokenGeneratorService.GenerateToken(),
                     IsLoginSuccessful = true
 
                 };
@@ -78,7 +74,6 @@ namespace UniversitySystem.Business.Services
                 {
                     Id = user.Id,
                     Email = email,
-                    Token = this.tokenGeneratorService.GenerateToken(),
                     IsRegisteredSuccessful = true
                 };
             }

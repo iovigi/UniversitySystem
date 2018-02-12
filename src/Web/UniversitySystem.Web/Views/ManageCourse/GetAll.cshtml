@@ -1,0 +1,72 @@
+﻿@model IEnumerable<UniversitySystem.Web.Models.Course.CourseDetailViewModel>
+@{
+    ViewData["Title"] = "GetAll";
+}
+
+<h2 class="text-center">GetAll</h2>
+
+<div class="container body-content">
+    <div class='container-fluid'>
+        <div class="row">
+            <div class="col-md-4">
+                <form id="AddForm">
+                    <section>
+                        <h3>Add Course</h3>
+                        <hr />
+                        <div class="form-group">
+                            <label for="Name">Name</label>
+                            <input name="Name" id="CourseAddName" required class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Score">Score</label>
+                            <input name="Score" id="CourseAddScore" required class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="CourseAddBtn" class="btn btn-default">Add Course</button>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Score</td>
+            <td>Student Count</td>
+            <td>Update</td>
+            <td>Delete</td>
+        </tr>
+    </thead>
+    <tbody id="courseList">
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>
+                    @course.Name
+                </td>
+                <td>
+                    @course.Score
+                </td>
+                <td>
+                    @course.CountOfStudent
+                </td>
+                <td>
+                    @if (course.CanBeModified)
+                    {
+                        <a asp-controller="ManageCourse" asp-action="Update" asp-route-courseId="@course.Id" class="btn btn-default">Update</a>
+                    }
+                </td>
+                <td>
+                    @if (course.CanBeModified)
+                    {
+                        <button class="btn btn-default btnDelete" data-courseId="@course.Id">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

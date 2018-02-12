@@ -18,26 +18,26 @@
         /// Add entry in data store
         /// </summary>
         /// <param name="entity">Entry, which will be added</param>
-        void Add(T entity);
+        int Add(T entity);
 
         /// <summary>
         /// Add entry asynchronously in data store
         /// </summary>
         /// <param name="entity">Entry, which will be add</param>
-        Task AddAsync(T entity);
+        Task<int> AddAsync(T entity);
 
         /// <summary>
         /// Add entries in data store
         /// </summary>
         /// <param name="entity">Entries, which will be add</param>
-        void AddRange(params T[] entities);
+        int AddRange(params T[] entities);
 
         /// <summary>
         /// Add entry asynchronously in data store
         /// </summary>
         /// <param name="entity">Entries, which will be add</param>
         /// <returns>Return task for operation add</returns> 
-        Task AddRangeAsync(params T[] entities);
+        Task<int> AddRangeAsync(params T[] entities);
 
         /// <summary>
         /// Delete entry from data store
@@ -54,20 +54,6 @@
         Task<bool> DeleteAsync(T entity);
 
         /// <summary>
-        /// Delete entry by id from data store
-        /// </summary>
-        /// <param name="id">Id of the entry</param>
-        /// <returns>Return true is delete entry successfully, otherwise false</returns>
-        bool Delete(object id);
-
-        /// <summary>
-        /// Delete entry asynchronously by id from data store
-        /// </summary>
-        /// <param name="id">Id of the entry</param>
-        /// <returns>Return task for operation delete by id with parameter bool, which true is delete entry successfully, otherwise false</returns>
-        Task<bool> DeleteAsync(object id);
-
-        /// <summary>
         /// Delete range of entries from data store
         /// </summary>
         /// <param name="entities">entries, which will be delete</param>
@@ -79,20 +65,6 @@
         /// <param name="entities">entries, which will be delete</param>
         /// <returns>Return task for operation range delete</returns>
         Task DeleteRangeAsync(params T[] entities);
-
-        /// <summary>
-        /// Return entry by id from data store
-        /// </summary>
-        /// <param name="id">Id of the entry</param>
-        /// <returns>Return entry, if exist entry in  data store with this id, otherwise return null</returns>
-        T GetById(object id);
-
-        /// <summary>
-        /// Return entry asynchronously by id from data store
-        /// </summary>
-        /// <param name="id">Id of the entry</param>
-        /// <returns>Return task for operation get entry by id with generic parameter, which represent entry, if exist entry in  data store with this id, otherwise parameter is null</returns>
-        Task<T> GetByIdAsync(object id);
 
         /// <summary>
         /// Update entry

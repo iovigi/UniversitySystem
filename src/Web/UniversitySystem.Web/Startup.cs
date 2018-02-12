@@ -1,4 +1,4 @@
-namespace UniversitySystem.Web
+﻿namespace UniversitySystem.Web
 {
     using System;
     using System.Collections.Generic;
@@ -25,7 +25,6 @@ namespace UniversitySystem.Web
     using Infrastructure.Extensions;
     using Infrastructure.Mapping;
 
-
     public class Startup
     {
         private const string AssemblyUniversitySystem = "UniversitySystem";
@@ -46,23 +45,23 @@ namespace UniversitySystem.Web
             services.AddDbContext<UniversitySystemDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            services.AddIdentity<Student, IdentityRole>()
-                .AddEntityFrameworkStores<UniversitySystemDbContext>()
+            services.AddIdentity<Student, IdentityRole>(config =>
+            {
+                var password = config.Password;
+                password.RequireDigit = false;
+                password.RequiredUniqueChars = 0;
+                password.RequireLowercase = false;
+                password.RequireNonAlphanumeric = false;
+                password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<UniversitySystemDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromSeconds(360));
+            services.AddAuthentication()
+                .Services.ConfigureApplicationCookie(options =>
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration[GlobalJWTConstants.Issuer],
-                        ValidAudience = Configuration[GlobalJWTConstants.Issuer],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration[GlobalJWTConstants.Key]))
-                    };
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
                 });
 
             services.RegisterAllNonGenericDependenciesWhichImplement<IDependency>(AssemblyUniversitySystem);
@@ -72,42 +71,37 @@ namespace UniversitySystem.Web
             var genericTypes = new Dictionary<KeyValuePair<Type, Type>, Type[]>();
             genericTypes.Add(repositoryPair, modelTypes);
             services.RegisterGenericDependencies(genericTypes);
-           
+
             Mapper.Initialize(config => config.AddProfile(new AutoMapperProfile(AssemblyUniversitySystem)));
             services.AddTransient<IMapper>(x => Mapper.Instance);
 
+            services.AddSession();
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseDatabaseInitialize();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
+                app.UseBrowserLink();
+                app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Common/Error");
             }
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+                    template: "{controller=Course}/{action=GetCourseList}/{id?}");
             });
         }
     }

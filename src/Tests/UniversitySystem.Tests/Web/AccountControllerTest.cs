@@ -36,7 +36,7 @@
 
             var result = await this.accountController.Login(loginViewModel);
 
-            Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<RedirectToActionResult>(result);
         }
 
         [Fact]
@@ -44,7 +44,7 @@
         {
             var result = await this.accountController.Login(null);
 
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<ViewResult>(result);
         }
 
         [Fact]
@@ -58,7 +58,7 @@
 
             var result = await this.accountController.Register(registerViewModel);
 
-            Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<RedirectToActionResult>(result);
         }
     }
 }

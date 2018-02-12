@@ -22,5 +22,7 @@
         public List<CourseServiceModel> RegisteredCourses { get; set; }
 
         public List<CourseServiceModel> NotRegisteredCourses { get; set; }
+
+        public bool CanRegisterMoreCourse { get; set; }
     }
 }

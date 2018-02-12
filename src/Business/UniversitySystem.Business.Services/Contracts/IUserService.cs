@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="email">Email of the user</param>
         /// <param name="password">Password of the user</param>
-        /// <returns>Return task with parameter register result with token and IsRegisteredSuccessful true, if user register successfully, otherwise return Login result with IsRegisteredSuccessful false</returns>
+        /// <returns>Return task with parameter register result with IsRegisteredSuccessful true, if user register successfully, otherwise return Login result with IsRegisteredSuccessful false</returns>
         Task<RegisterResultServiceModel> RegisterAsync(string email, string password);
 
         /// <summary>
@@ -21,7 +21,7 @@
         /// </summary>
         /// <param name="email">Email of the user</param>
         /// <param name="password">Password of the user</param>
-        /// <returns>Return Task with parameter login result with token and IsLoginSuccessful true, if user login successfully, otherwise return Login result with IsLoginSuccessful false</returns>
+        /// <returns>Return Task with parameter login result IsLoginSuccessful true, if user login successfully, otherwise return Login result with IsLoginSuccessful false</returns>
         Task<LoginResultServiceModel> LoginAsync(string email, string password);
 
         /// <summary>

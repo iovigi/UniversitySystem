@@ -18,31 +18,13 @@
         public CourseServiceTest()
         {
             MapperInit.Init();
-            this.courseService = new CourseService(new MockCourseRepository(), new MockStudentRepository(), Mapper.Instance);
+            this.courseService = new CourseService(new MockCourseRepository(), new MockStudentRepository(), new MockStudentCourseRepository(), Mapper.Instance);
         }
 
         [Fact]
         public void InitShouldThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new CourseService(null, null, null));
-        }
-
-        [Fact]
-        public async void CourseShouldBeEmpty()
-        {
-            int courseIdEmpty = 0;
-            var realValue = await this.courseService.IsCourseEmptyAsync(courseIdEmpty);
-
-            Assert.True(realValue);
-        }
-
-        [Fact]
-        public async void CourseShouldNotBeEmpty()
-        {
-            int courseIdNotEmpty = 1;
-            var realValue = await this.courseService.IsCourseEmptyAsync(courseIdNotEmpty);
-
-            Assert.False(realValue);
+            Assert.Throws<ArgumentNullException>(() => new CourseService(null, null, null, null));
         }
 
         [Fact]
@@ -52,74 +34,9 @@
             int score = 60;
 
             await this.courseService.AddAsync(name, score);
-            var course = this.courseService.GetAllAsync().FirstOrDefault(x => x.Name == name);
+            var course = this.courseService.GetAll().FirstOrDefault(x => x.Name == name);
 
             Assert.NotNull(course);
-        }
-
-        [Fact]
-        public async void GetCourseShouldBeNull()
-        {
-            var notExistingId = -10;
-            var course = await this.courseService.GetAsync(notExistingId);
-
-            Assert.Null(course);
-        }
-
-        [Fact]
-        public async void GetCourseShouldBeNotNull()
-        {
-            var existingId = 1;
-            var course = await this.courseService.GetAsync(existingId);
-
-            Assert.NotNull(course);
-        }
-
-        [Fact]
-        public async void CourseShouldBeDeleted()
-        {
-            var existingId = 0;
-            var result = await this.courseService.DeleteAsync(existingId);
-
-            Assert.True(result);
-        }
-
-        [Fact]
-        public async void CourseShouldNotBeDeleted()
-        {
-            var existingId = 1;
-            var result = await this.courseService.DeleteAsync(existingId);
-
-            Assert.False(result);
-        }
-
-        [Fact]
-        public async void CourseShouldBeUpdated()
-        {
-            var existingId = 0;
-            var result = await this.courseService.UpdateCourseAsync(existingId, "test", 10);
-
-            Assert.True(result);
-        }
-
-        [Fact]
-        public async void CourseShouldBeRegister()
-        {
-            var existingCourseId = 0;
-            var studentId = "1";
-            var result = await this.courseService.RegisterStudentAsync(existingCourseId, studentId);
-
-            Assert.True(result);
-        }
-
-        [Fact]
-        public async void CourseShouldBeUnRegister()
-        {
-            var existingCourseId = 1;
-            var studentId = "1";
-            var result = await this.courseService.UnRegisterStudentAsync(existingCourseId, studentId);
-
-            Assert.True(result);
         }
 
         [Fact]

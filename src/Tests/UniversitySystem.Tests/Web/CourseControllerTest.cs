@@ -27,57 +27,12 @@
         }
 
         [Fact]
-        public async void CourseShouldBeAddedSuccessfull()
-        {
-            var result = await this.courseController.Add(new UniversitySystem.Web.Models.Course.AddCourseViewModel()
-            {
-                Name = "Test",
-                Score = 10
-            });
-
-            Assert.IsType<OkResult>(result);
-        }
-
-
-        [Fact]
-        public async void CourseShouldBeUpdateSuccessfull()
-        {
-            var result = await this.courseController.Update(new UniversitySystem.Web.Models.Course.CourseViewModel()
-            {
-                Id = 1,
-                Name = "Test",
-                Score = 10
-            });
-
-            Assert.IsType<OkObjectResult>(result);
-        }
-
-        [Fact]
-        public async void CourseShouldBeDeleteSuccessfull()
-        {
-            var result = await this.courseController.Delete(1);
-
-            Assert.IsType<OkObjectResult>(result);
-        }
-
-        [Fact]
-        public async void CourseShouldBeDeleteUnsuccessfull()
-        {
-            var result = await this.courseController.Delete(2);
-
-            Assert.IsType<OkObjectResult>(result);
-            var data = ((dynamic)(result as OkObjectResult).Value).IsSuccess;
-
-            Assert.False(data);
-        }
-
-        [Fact]
         public async void CourseShouldBeRegisterSuccessfull()
         {
             var result = await this.courseController.RegisterCourse(1);
 
             Assert.IsType<OkObjectResult>(result);
-            var data = ((dynamic)(result as OkObjectResult).Value).IsSuccess;
+            var data = ((dynamic)(result as OkObjectResult).Value).IsSuccessfull;
 
             Assert.True(data);
         }
@@ -88,7 +43,7 @@
             var result = await this.courseController.RegisterCourse(2);
 
             Assert.IsType<OkObjectResult>(result);
-            var data = ((dynamic)(result as OkObjectResult).Value).IsSuccess;
+            var data = ((dynamic)(result as OkObjectResult).Value).IsSuccessfull;
 
             Assert.False(data);
         }
@@ -99,7 +54,7 @@
             var result = await this.courseController.RegisterCourse(1);
 
             Assert.IsType<OkObjectResult>(result);
-            var data = ((dynamic)(result as OkObjectResult).Value).IsSuccess;
+            var data = ((dynamic)(result as OkObjectResult).Value).IsSuccessfull;
 
             Assert.True(data);
         }
@@ -110,7 +65,7 @@
             var result = await this.courseController.RegisterCourse(2);
 
             Assert.IsType<OkObjectResult>(result);
-            var data = ((dynamic)(result as OkObjectResult).Value).IsSuccess;
+            var data = ((dynamic)(result as OkObjectResult).Value).IsSuccessfull;
 
             Assert.False(data);
         }
@@ -120,7 +75,7 @@
         {
             var result = this.courseController.GetCourseList();
 
-            Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<ViewResult>(result);
         }
     }
 }

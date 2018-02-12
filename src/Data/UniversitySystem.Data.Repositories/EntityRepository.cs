@@ -15,31 +15,32 @@
             this.universitySystemDbContext = universitySystemDbContext ?? throw new ArgumentNullException(nameof(universitySystemDbContext));
         }
 
-        public void Add(T entity)
+        public int Add(T entity)
         {
             this.universitySystemDbContext.Set<T>().Add(entity);
 
-            this.universitySystemDbContext.SaveChanges();
+            return this.universitySystemDbContext.SaveChanges();
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<int> AddAsync(T entity)
         {
             await this.universitySystemDbContext.AddAsync(entity);
-            await this.universitySystemDbContext.SaveChangesAsync();
+
+            return await this.universitySystemDbContext.SaveChangesAsync();
         }
 
-        public void AddRange(params T[] entities)
+        public int AddRange(params T[] entities)
         {
             this.universitySystemDbContext.Set<T>().AddRange(entities);
 
-            this.universitySystemDbContext.SaveChanges();
+            return this.universitySystemDbContext.SaveChanges();
         }
 
-        public async Task AddRangeAsync(params T[] entities)
+        public async Task<int> AddRangeAsync(params T[] entities)
         {
             await this.universitySystemDbContext.Set<T>().AddRangeAsync(entities);
 
-            await this.universitySystemDbContext.SaveChangesAsync();
+            return await this.universitySystemDbContext.SaveChangesAsync();
         }
 
         public IQueryable<T> GetAll()
@@ -65,20 +66,6 @@
             return affectedRow > 0;
         }
 
-        public bool Delete(object id)
-        {
-            var entity = this.GetById(id);
-
-            return this.Delete(entity);
-        }
-
-        public async Task<bool> DeleteAsync(object id)
-        {
-            var entity = await this.GetByIdAsync(id);
-
-            return await DeleteAsync(entity);
-        }
-
         public void DeleteRange(params T[] entities)
         {
             this.universitySystemDbContext.Set<T>().RemoveRange(entities);
@@ -89,16 +76,6 @@
             this.universitySystemDbContext.Set<T>().RemoveRange(entities);
 
             await this.universitySystemDbContext.SaveChangesAsync();
-        }
-
-        public T GetById(object id)
-        {
-            return this.universitySystemDbContext.Set<T>().Find(id);
-        }
-
-        public async Task<T> GetByIdAsync(object id)
-        {
-            return await this.universitySystemDbContext.Set<T>().FindAsync(id);
         }
 
         public void Update(T entity)

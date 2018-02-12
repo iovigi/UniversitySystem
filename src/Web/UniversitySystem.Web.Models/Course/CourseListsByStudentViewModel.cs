@@ -15,6 +15,8 @@
 
         public List<CourseViewModel> NotRegisteredCourses { get; set; }
 
+        public bool CanRegisterMoreCourse { get; set; }
+
         public void ConfigureMapping(Profile mapper)
         {
             mapper.CreateMap<CourseListsByStudentServiceModel, CourseListsByStudentViewModel>()

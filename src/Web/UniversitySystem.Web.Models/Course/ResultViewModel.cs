@@ -2,11 +2,11 @@
 {
     public class ResultViewModel
     {
-        public ResultViewModel(bool isSuccess)
+        public ResultViewModel(bool IsSucessfull)
         {
-            this.IsSuccess = isSuccess;
+            this.IsSucessfull = IsSucessfull;
         }
 
-        public bool IsSuccess { get; set; }
+        public bool IsSucessfull { get; set; }
     }
 }

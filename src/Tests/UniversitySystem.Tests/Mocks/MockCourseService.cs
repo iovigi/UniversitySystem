@@ -9,8 +9,9 @@
 
     internal class MockCourseService : ICourseService
     {
-        public async Task AddAsync(string name, int score)
+        public async Task<CourseServiceModel> AddAsync(string name, int score)
         {
+            throw new System.NotImplementedException();
         }
 
         public async Task<bool> DeleteAsync(int courseId)
@@ -23,9 +24,9 @@
             return false;
         }
 
-        public IQueryable<CourseServiceModel> GetAllAsync()
+        public IQueryable<CourseServiceModel> GetAll()
         {
-            throw new System.NotImplementedException();
+            return new List<CourseServiceModel>().AsQueryable();
         }
 
         public Task<CourseServiceModel> GetAsync(int courseId)
@@ -46,29 +47,46 @@
             throw new System.NotImplementedException();
         }
 
-        public async Task<bool> RegisterStudentAsync(int courseId, string studentId)
-        {
-            if(courseId == 1 && studentId == "1")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<bool> UnRegisterStudentAsync(int courseId, string studentId)
+        public async Task<RegisterToCourseServiceModel> RegisterStudentAsync(int courseId, string studentId)
         {
             if (courseId == 1 && studentId == "1")
             {
-                return true;
+                return new RegisterToCourseServiceModel()
+                {
+                    IsSuccessfull = true,
+                    CanRegisterMore = true
+                };
+
             }
 
-            return false; 
+            return new RegisterToCourseServiceModel()
+            {
+                IsSuccessfull = false,
+                CanRegisterMore = false
+            };
+        }
+
+        public async Task<UnRegisterToCourseServiceModelcs> UnRegisterStudentAsync(int courseId, string studentId)
+        {
+            if (courseId == 1 && studentId == "1")
+            {
+                return new UnRegisterToCourseServiceModelcs()
+                {
+                    IsSuccessfull = true,
+                    CanRegisterMore = true
+                };
+            }
+
+            return new UnRegisterToCourseServiceModelcs()
+            {
+                IsSuccessfull = false,
+                CanRegisterMore = false
+            };
         }
 
         public async Task<bool> UpdateCourseAsync(int courseId, string name, int score)
         {
-            if(courseId == 1)
+            if (courseId == 1)
             {
                 return true;
             }

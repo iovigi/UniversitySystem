@@ -12,7 +12,7 @@
         /// Asynchronously get all courses which is store in data storage
         /// </summary>
         /// <returns>Return task with all available courses</returns>
-        IQueryable<CourseServiceModel> GetAllAsync();
+        IQueryable<CourseServiceModel> GetAll();
 
         /// <summary>
         /// Asynchronously add Course to data store. If name is null or white space, throw ArgumentException. If score is less than zero throw ArgumentException.
@@ -20,7 +20,7 @@
         /// <param name="name">Name of course</param>
         /// <param name="score">Score of course</param>
         /// <returns>Return task for operation add</returns>
-        Task AddAsync(string name, int score);
+        Task<CourseServiceModel> AddAsync(string name, int score);
 
         /// <summary>
         /// Asynchronously check is there are registered student to the course by course id
@@ -56,7 +56,7 @@
         /// <param name="courseId">Id of the course</param>
         /// <param name="studentId">Id of the student</param>
         /// <returns>Return task with parameter bool, parameter is true if student register to course successfully, otherwise parameter is false</returns>
-        Task<bool> RegisterStudentAsync(int courseId, string studentId);
+        Task<RegisterToCourseServiceModel> RegisterStudentAsync(int courseId, string studentId);
 
         /// <summary>
         /// Asynchronously remove student from course, if student is registered, course and student isn't null. 
@@ -64,7 +64,7 @@
         /// <param name="courseId">Id of the course</param>
         /// <param name="studentId">Id of the student</param>
         /// <returns>Return task with parameter bool, parameter is true if student unregister to course successfully, otherwise parameter is false</returns>
-        Task<bool> UnRegisterStudentAsync(int courseId, string studentId);
+        Task<UnRegisterToCourseServiceModelcs> UnRegisterStudentAsync(int courseId, string studentId);
 
         /// <summary>
         /// Return lists with registered and non registred courses for student
